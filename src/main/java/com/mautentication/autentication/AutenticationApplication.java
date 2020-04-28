@@ -30,7 +30,7 @@ public class AutenticationApplication {
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/worker").permitAll()
-					.antMatchers(HttpMethod.POST, "/Exiuser").permitAll()
+					.antMatchers(HttpMethod.POST, "/Exiworker").permitAll()
 				.anyRequest().authenticated();
 		}
 
