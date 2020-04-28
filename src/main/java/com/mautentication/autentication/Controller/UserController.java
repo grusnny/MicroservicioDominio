@@ -9,10 +9,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.conection.FirebaseConection;
 import org.springframework.security.core.GrantedAuthority;
@@ -99,25 +96,22 @@ public class UserController {
         //conectando al Firestore de la instancia de firebase
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection("worker").document(uId);
-        //conectando al Firestore de la instancia de firebase
 
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-
-// ...
-// future.get() blocks on response
-        DocumentSnapshot document = null;
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("capital", FieldValue.delete());
+// Update and delete the "capital" field in the document
+        ApiFuture<WriteResult> writeResult = docRef.update(updates);
         try {
-            document = future.get();
+            System.out.println("Update time : " + writeResult.get());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
-        if (document.exists()) {
-            return 1;
-        } else {
             return 0;
         }
+
+        return 1;
+
 
     }
 	private String getJWTToken(String username) {
