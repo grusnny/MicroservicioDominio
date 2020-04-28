@@ -95,23 +95,18 @@ public class UserController {
 
         //conectando al Firestore de la instancia de firebase
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference docRef = db.collection("worker").document(uId);
 
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("capital", FieldValue.delete());
-// Update and delete the "capital" field in the document
-        ApiFuture<WriteResult> writeResult = docRef.update(updates);
+        ApiFuture<WriteResult> writeResult = db.collection("worker").document(uId).delete();
+// ...
         try {
-            System.out.println("Update time : " + writeResult.get());
+            System.out.println("Update time : " + writeResult.get().getUpdateTime());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-            return 0;
         }
 
         return 1;
-
 
     }
 	private String getJWTToken(String username) {
