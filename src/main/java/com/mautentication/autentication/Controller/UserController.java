@@ -61,6 +61,7 @@ public class UserController {
         data.put("mailAlt", mailAlt);
         data.put("name", name);
         data.put("photo",photo);
+        data.put("profession",prof);
         data.put("telephone",telephone);
         data.put("uId",uId);
 //asynchronously write data
